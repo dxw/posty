@@ -35,8 +35,7 @@ class Posty
   end
 
   def postcode code
-    code.gsub!(/[^\w\d]/,'')
-    code.upcase!
+    code = code.gsub(/[^\w\d]/,'').upcase
     PostCode.new(@db.get_first_row('SELECT * FROM codepoint WHERE postcode = ?', code))
   end
 
