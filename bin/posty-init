@@ -47,7 +47,7 @@ Dir.mktmpdir do |dir|
 END
 
   # Slurp CSV into SQLite
-  Dir.glob("#{dir}/data/CSV/*.csv").each do |csv|
+  Dir.glob("#{dir}/data/CSV/*.csv").sort.each do |csv|
     csv.match(/(\w+)\.csv$/)
     STDERR.puts "Reading #{$1.upcase}"
 
