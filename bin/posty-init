@@ -43,7 +43,7 @@ Dir.mktmpdir do |dir|
   # Create database
   db = SQLite3::Database.new(database)
   db.execute <<END
-    CREATE TABLE codepoint (postcode, quality, latitude, longitude, country, nhs_region, nhs_health authority, county, district, ward)
+    CREATE TABLE codepoint (postcode PRIMARY KEY, quality, latitude, longitude, country, nhs_region, nhs_health authority, county, district, ward)
 END
 
   # Slurp CSV into SQLite
