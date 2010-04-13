@@ -48,6 +48,8 @@ END
 
   # Slurp CSV into SQLite
   Dir.glob("#{dir}/data/CSV/*.csv").each do |csv|
+    csv.match(/(\w+)\.csv$/)
+    STDERR.puts "Reading #{$1.upcase}"
     FasterCSV.foreach(csv) do |row|
       db.execute <<END, *row
         INSERT INTO codepoint VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
