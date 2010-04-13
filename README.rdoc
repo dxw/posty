@@ -1,0 +1,37 @@
+= Posty
+
+Simple geolocation gem that stores the database locally.
+
+= Getting started
+
+ gem install posty
+
+To download mySociety's mirror of the Code-Point Open in WGS84 format, and create a database from it (this takes about 8 minutes for me):
+
+ posty-init -d database.sqlite3
+
+Then, in Ruby:
+
+ require 'posty'
+ posty = Posty.new('database.sqlite3')
+ postcode = posty.postcode('SE1 1EN') # space is optional, as is capitalisation
+ 
+ p postcode.postcode
+ p [postcode.latitude, postcode.longitude]
+ p postcode.county
+
+= Notes
+
+The table contains the following columns, extracted from the WGS84 edition of Code-Point Open:
+  postcode
+  quality
+  latitude
+  longitude
+  country
+  nhs_region
+  nhs_health_authority
+  county
+  district
+  ward
+
+It does not contain eastings and northings.
