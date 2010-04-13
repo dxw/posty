@@ -3,6 +3,7 @@
 require 'sqlite3'
 require 'tmpdir'
 require 'choice'
+require 'fastercsv'
 
 codepoint_wgs = 'http://parlvid.mysociety.org:81/os/codepo_gb_wgs84.zip'
 
@@ -41,11 +42,18 @@ Dir.mktmpdir do |dir|
 
   # Create database
   db = SQLite3::Database.new(database)
-  db.execute(<<END)
+  db.execute <<END
     CREATE TABLE codepoint (postcode, quality, latitude, longitude, country, nhs_region, nhs_health authority, county, district, ward)
 END
 
   # Slurp CSV into SQLite
+  Dir.glob("#{dir}/data/CSV/*.csv").each do |csv|
+    FasterCSV.foreach(csv) do |row|
+      db.execute <<END, *row
+        INSERT INTO codepoint VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+END
+    end
+  end
 
   db.close
 end
