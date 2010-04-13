@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
+require 'posty'
 require 'sqlite3'
 require 'tmpdir'
 require 'choice'
@@ -8,10 +9,15 @@ require 'fastercsv'
 codepoint_wgs = 'http://parlvid.mysociety.org:81/os/codepo_gb_wgs84.zip'
 
 Choice.options do
-  option :database, :required => true do
+  option :database do
     short '-d'
     long '--database=SQLITE'
     desc 'The database to create and put data into.'
+  end
+  option :gem do
+    short '-g'
+    long '--gem'
+    desc 'Install the database into the gem (may require sudo).'
   end
   option :codepoint do
     short '-c'
@@ -22,6 +28,13 @@ Choice.options do
 end
 
 database = Choice.choices[:database]
+if Choice.choices[:gem]
+  Dir.mkdir "#{Posty.gem_dir}/posty"
+  database = "#{Posty.gem_dir}/posty/codepointopen.sqlite3"
+elsif database.nil?
+  STDERR.puts 'Requires either -d or -g option.'
+  exit 2
+end
 codepoint = Choice.choices[:codepoint]
 
 # Die if db already exists

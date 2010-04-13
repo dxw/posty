@@ -28,4 +28,8 @@ class Posty
     code.upcase!
     PostCode.new(@db.get_first_row('SELECT * FROM codepoint WHERE postcode = ?', code))
   end
+
+  def self.gem_dir
+    File.dirname(__FILE__)
+  end
 end
