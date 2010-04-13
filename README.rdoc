@@ -4,47 +4,49 @@ Simple geolocation gem that stores the database locally.
 
 = Getting started
 
- gem install posty
+  gem install posty
 
-To download mySociety's mirror of the Code-Point Open in WGS84 format, and create a database from it (this takes about 8 minutes for me, and leaves me with a 157M database):
+To download mySociety's mirror of the Code-Point Open in WGS84 format, and create a database from it, and store that inside the gem (you may not need the sudo):
 
- posty-init -d database.sqlite3
+  sudo posty-init -g
 
-You may also store the database inside your gem by running:
+This takes about 8 minutes for me, and leaves me with a database of approximately 157M.
 
- posty-init -g
+If you don't want the database being stored in your gem, run something like this instead:
+
+  posty-init -d database.sqlite3
 
 Then, in Ruby:
 
- require 'posty'
- posty = Posty.new('database.sqlite3')
- postcode = posty.postcode('SE1 1EN') # space is optional, as is capitalisation
- 
- p postcode.postcode
- p [postcode.latitude, postcode.longitude]
- p postcode.county
+  require 'posty'
+  posty = Posty.new
+  postcode = posty.postcode('SE1 1EN') # space is optional, as is capitalisation
+  
+  p postcode.postcode
+  p [postcode.latitude, postcode.longitude]
+  p postcode.county
 
-If you've stored the database in with the gem, you don't need to specify the location of the database, like so:
+If the database isn't in the gem, you'll need to tell it where to find it:
 
- require 'posty'
- posty = Posty.new
+  posty = Posty.new('database.sqlite3')
 
-To make things even easier, there's a class method too:
+To make things even easier, there's a class method too (which accepts the database as the second parameter):
 
- Posty.postcode('SE1 1EN')
+  Posty.postcode('SE1 1EN')
 
 = Notes
 
 The table contains the following columns, extracted from the WGS84 edition of Code-Point Open:
-  postcode
-  quality
-  latitude
-  longitude
-  country
-  nhs_region
-  nhs_health_authority
-  county
-  district
-  ward
+
+* postcode
+* quality
+* latitude
+* longitude
+* country
+* nhs_region
+* nhs_health_authority
+* county
+* district
+* ward
 
 It does not contain eastings and northings.
