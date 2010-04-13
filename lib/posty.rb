@@ -18,7 +18,7 @@ class PostCode
 end
 
 class Posty
-  def initialize(database)
+  def initialize(database = nil)
     @db = SQLite3::Database.new(database)
     @db.results_as_hash = true
   end
@@ -29,7 +29,7 @@ class Posty
     PostCode.new(@db.get_first_row('SELECT * FROM codepoint WHERE postcode = ?', code))
   end
 
-  def self.gem_dir
-    File.dirname(__FILE__)
+  def self.gem_database
+    "#{File.dirname(__FILE__)}/posty/codepointopen.sqlite3"
   end
 end

@@ -5,6 +5,7 @@ require 'sqlite3'
 require 'tmpdir'
 require 'choice'
 require 'fastercsv'
+require 'fileutils'
 
 codepoint_wgs = 'http://parlvid.mysociety.org:81/os/codepo_gb_wgs84.zip'
 
@@ -29,8 +30,8 @@ end
 
 database = Choice.choices[:database]
 if Choice.choices[:gem]
-  Dir.mkdir "#{Posty.gem_dir}/posty"
-  database = "#{Posty.gem_dir}/posty/codepointopen.sqlite3"
+  FileUtils.mkdir_p File.dirname(Posty.gem_database)
+  database = Posty.gem_database
 elsif database.nil?
   STDERR.puts 'Requires either -d or -g option.'
   exit 2
