@@ -2,7 +2,7 @@
 
 Simple geolocation gem that stores the database locally.
 
-= Getting started
+== Getting started
 
   gem install posty
 
@@ -22,9 +22,9 @@ Then, in Ruby:
   posty = Posty.new
   postcode = posty.postcode('SE1 1EN') # space is optional, as is capitalisation
   
-  p postcode.postcode
-  p [postcode.latitude, postcode.longitude]
-  p postcode.county
+  p postcode.postcode                       # => "SE11EN"
+  p [postcode.longitude, postcode.latitude] # => [-0.0946442029066659, 51.5013874361129]
+  p postcode.county                         # => "00"
 
 If the database isn't in the gem, you'll need to tell it where to find it:
 
@@ -34,7 +34,7 @@ To make things even easier, there's a class method too (which accepts the databa
 
   Posty.postcode('SE1 1EN')
 
-= Notes
+== Notes
 
 The table contains the following columns, extracted from the WGS84 edition of Code-Point Open:
 
