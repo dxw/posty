@@ -6,7 +6,7 @@ Simple geolocation gem that stores the database locally.
 
  gem install posty
 
-To download mySociety's mirror of the Code-Point Open in WGS84 format, and create a database from it (this takes about 8 minutes for me):
+To download mySociety's mirror of the Code-Point Open in WGS84 format, and create a database from it (this takes about 8 minutes for me, and leaves me with a 157M database):
 
  posty-init -d database.sqlite3
 
