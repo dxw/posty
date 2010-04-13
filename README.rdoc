@@ -10,6 +10,10 @@ To download mySociety's mirror of the Code-Point Open in WGS84 format, and creat
 
  posty-init -d database.sqlite3
 
+You may also store the database inside your gem by running:
+
+ posty-init -g
+
 Then, in Ruby:
 
  require 'posty'
@@ -19,6 +23,15 @@ Then, in Ruby:
  p postcode.postcode
  p [postcode.latitude, postcode.longitude]
  p postcode.county
+
+If you've stored the database in with the gem, you don't need to specify the location of the database, like so:
+
+ require 'posty'
+ posty = Posty.new
+
+To make things even easier, there's a class method too:
+
+ Posty.postcode('SE1 1EN')
 
 = Notes
 
