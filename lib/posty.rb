@@ -2,7 +2,7 @@ require 'sqlite3'
 
 class PostCode
   attr_reader :data
-  def initialize(data)
+  def initialize data
     @data = {}
     data.each_pair do |a,b|
       @data[a] = b if a.is_a? String
@@ -18,7 +18,18 @@ class PostCode
 end
 
 class Posty
-  def initialize(database = nil)
+  def initialize database = nil
+    if database.nil?
+      database = Posty.gem_database
+      unless File.exist? database
+        raise IOError, "No database found in gem. Have you run posty-init -g (possibly with sudo)?"
+      end
+    end
+
+    unless File.exist? database
+      raise IOError, "No database found at #{database}. Have you run posty-init -d '#{database}'?"
+    end
+
     @db = SQLite3::Database.new(database)
     @db.results_as_hash = true
   end
@@ -31,5 +42,9 @@ class Posty
 
   def self.gem_database
     "#{File.dirname(__FILE__)}/posty/codepointopen.sqlite3"
+  end
+
+  def self.postcode code, database = nil
+    Posty.new(database).postcode(code)
   end
 end
