@@ -55,6 +55,7 @@ Dir.mktmpdir do |dir|
   `unzip -d '#{dir}' '#{codepoint}'`
 
   # Create database
+  STDERR.puts "Writing database to #{database}"
   db = SQLite3::Database.new(database)
   db.execute <<END
     CREATE TABLE codepoint (postcode PRIMARY KEY, quality, latitude, longitude, country, nhs_region, nhs_health_authority, county, district, ward)
