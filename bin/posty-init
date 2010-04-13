@@ -51,14 +51,17 @@ END
     csv.match(/(\w+)\.csv$/)
     STDERR.puts "Reading #{$1.upcase}"
 
-    FasterCSV.foreach(csv) do |row|
-      # Normalise postcode (strip the space)
-      norm_postcode = row[0].gsub(/[^\w\d]/,'').upcase
-      data = [norm_postcode]+row[1..-1]
+    db.transaction do |db|
 
-      db.execute <<END, *data
-        INSERT INTO codepoint VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      FasterCSV.foreach(csv) do |row|
+        # Normalise postcode (strip the space)
+        norm_postcode = row[0].gsub(/[^\w\d]/,'').upcase
+        data = [norm_postcode]+row[1..-1]
+
+        db.execute <<END, *data
+          INSERT INTO codepoint VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 END
+      end
     end
   end
 
