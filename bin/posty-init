@@ -50,8 +50,13 @@ END
   Dir.glob("#{dir}/data/CSV/*.csv").each do |csv|
     csv.match(/(\w+)\.csv$/)
     STDERR.puts "Reading #{$1.upcase}"
+
     FasterCSV.foreach(csv) do |row|
-      db.execute <<END, *row
+      # Normalise postcode (strip the space)
+      norm_postcode = row[0].gsub(/[^\w\d]/,'').upcase
+      data = [norm_postcode]+row[1..-1]
+
+      db.execute <<END, *data
         INSERT INTO codepoint VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 END
     end
